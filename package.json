@@ -1,0 +1,32 @@
+{
+  "name": "gymmer-js-client",
+  "version": "0.0.1",
+  "description": "JavaScript client for Gymmer push-service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gymer/gymmer-js-client.git"
+  },
+  "keywords": [
+    "pusher",
+    "client"
+  ],
+  "author": "Alexey Krasman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gymer/gymmer-js-client/issues"
+  },
+  "homepage": "https://github.com/gymer/gymmer-js-client#readme",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "webpack": "^1.12.9"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}

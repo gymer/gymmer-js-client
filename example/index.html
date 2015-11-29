@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gymmer app example</title>
+
+  <script src="/dist/bundle.js"></script>
+  <script>
+    var ws = new Gymmer("qweqw432r233f", {wsUrl: "ws://localhost:8080/v1/ws/app/secret-app-key"});
+
+    ws.send("pingping");
+  </script>
+</head>
+<body>
+
+</body>
+</html>
+
+
