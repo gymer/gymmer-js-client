@@ -1,25 +1,60 @@
-var webpack = require("webpack");
+var webpack = require("webpack"),
+    ENV     = process.env.ENV || 'development',
+    DEV     = ENV == 'development';
+
+function envPlugins() {
+  var plugins;
+
+  if (!DEV) {
+    plugins = [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      })
+    ];
+  } else {
+    plugins = [];
+  }
+
+  return plugins;
+};
 
 module.exports = {
   entry: "./src/bundle.js",
+
   output: {
-    path: __dirname,
-    filename: "./dist/bundle.js"
+    path: __dirname + '/dist',
+    filename: "bundle.js"
   },
+
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel" }
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel!jshint"
+      },
+      {
+        test: /\.html/,
+        loader: 'file?name=[name].[ext]'
+      }
     ]
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ],
-  devtool: 'eval-source-map',
+
+  plugins: envPlugins(),
+
+  jshint: {
+    esnext: true
+  },
+
+  devtool: DEV ? 'source-map' : false,
+
   devServer: {
-    port: 8000
+    contentBase: "./dist",
+    port: 8000,
+    noInfo: true,
+    hot: false,
+    inline: false
   }
 };

@@ -4,11 +4,11 @@ import config from './config';
 
 let APP_KEY;
 
-export class Gymmer {
+export default class Gymmer {
   constructor(appKey, options = {}) {
     APP_KEY = appKey;
 
-    this.options  = _.merge({}, config, options)
+    this.options  = _.merge({}, config, options);
     this.messages = [];
     this.createWsConnection();
   }
