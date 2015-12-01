@@ -8,9 +8,12 @@
 
   <script src="/bundle.js"></script>
   <script>
-    var ws = new Gymmer("qweqw432r233f", {wsUrl: "ws://localhost:8080/v1/ws/app/secret-app-key"});
+    window.gymmer  = new Gymmer("secret-app-key", {host: "localhost:8080"});
+    window.channel    = gymmer.subscribe('notifications');
 
-    ws.send("pingping");
+    channel.on('new_message', function(message) {
+      console.log(message);
+    });
   </script>
 </head>
 <body>
