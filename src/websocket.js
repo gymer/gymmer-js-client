@@ -1,1 +1,1 @@
-export default WebSocket;
+export var WS = WebSocket;

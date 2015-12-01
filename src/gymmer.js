@@ -1,9 +1,9 @@
-import EventEmitter from 'events';
-import config from './config';
-import WS from './Websocket';
-import Channel from './Channel';
+import {EventEmitter} from 'events';
+import {config} from './config';
+import {WS} from './websocket';
+import {Channel} from './channel';
 
-export default class Gymmer extends EventEmitter {
+export class Gymmer extends EventEmitter {
   constructor(appKey, options = {}) {
     super();
 

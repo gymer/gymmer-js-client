@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import EVENTS from './events.js';
 
-export default class Channel extends EventEmitter {
+export class Channel extends EventEmitter {
   constructor(name, gymmer) {
     super();
 
