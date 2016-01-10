@@ -8,10 +8,20 @@
 
   <script src="/bundle.js"></script>
   <script>
-    window.gymmer  = new Gymmer("secret-app-key", {host: "localhost:8080"});
-    window.channel    = gymmer.subscribe('notifications');
+    var gymmer, public_channel, private_channel;
 
-    channel.on('new_message', function(message) {
+    gymmer  = new Gymmer("b55a10860022b0cc", {
+      host: "localhost:8080",
+      auth: {url: "http://localhost:3000/pusher/auth", method: "POST", headers: {'X-CSRF-Token': "SOME_CSRF_TOKEN"}}
+    });
+
+    public_channel = gymmer.subscribe('notifications');
+    private_channel = gymmer.subscribe('@messages');
+
+    public_channel.on('new_message', function(message) {
+      console.log(message);
+    });
+    private_channel.on('new_message', function(message) {
       console.log(message);
     });
   </script>
