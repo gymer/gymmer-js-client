@@ -1,19 +1,23 @@
 import {EventEmitter} from 'events';
-import CONFIG from './config';
-import {WS} from './websocket';
-import {Channel} from './channel';
-import {PrivateChannel} from './private_channel';
+import CONFIG from './config/config';
+import EVENTS from './config/events';
+import {WS} from './services/websocket';
+import {Channel} from './channels/channel';
+import {PrivateChannel} from './channels/private_channel';
 import {ServiceDispatcher} from './service_dispatcher';
+
+let APP_KEY, timeout_id;
 
 export class Gymmer extends EventEmitter {
   constructor(appKey, options = {}) {
     super();
 
+    APP_KEY = appKey;
+
     this.options  = Object.assign({}, CONFIG, options);
     this.channels = {};
     this.messages = [];
-    this.createWsConnection(appKey);
-    this.service_dispatcher = new ServiceDispatcher(this);
+    this.createWsConnection(APP_KEY);
   }
 
   createWsConnection(appKey) {
@@ -21,11 +25,13 @@ export class Gymmer extends EventEmitter {
     var ws   = new WS(`ws://${this.options.host}/v1/ws/app/${appKey}`);
 
     // ws.onopen    = this.establishWsHandler.bind(this);
-    ws.onmessage = this.pushHandler.bind(this);
-    ws.onerror   = this.errorWsHandler;
-    ws.onclose   = this.closeWsHandler;
 
     this._ws = ws;
+    this.dispatcher = new ServiceDispatcher(ws, {servicePrefix: CONFIG.SERVICE_MESSAGES_PREFIX});
+    this.dispatcher.on('message', this.onPush.bind(this));
+    this.dispatcher.on('service_message', this.onServiceMessage.bind(this));
+    this.dispatcher.on('close', this.onCloseSocket.bind(this));
+    this.dispatcher.on('crash', this.onCrashSocket.bind(this));
   }
 
   subscribe(channel_name) {
@@ -70,7 +76,7 @@ export class Gymmer extends EventEmitter {
     }
   }
 
-  establishWsHandler(socket_id) {
+  onSocketInit(socket_id) {
     if (!socket_id) {
       return;
     }
@@ -83,42 +89,31 @@ export class Gymmer extends EventEmitter {
     });
   }
 
-  pushHandler(evt) {
-    var message, channel, data;
+  onPush(message) {
+    let channel = this.channels[message.channel];
 
-    try {
-      message = JSON.parse(evt.data);
-    } catch(e) {}
-
-    if (!message || !message.event) {
-      return false;
-    }
-
-    if (message.event.indexOf(CONFIG.SERVICE_MESSAGES_PREFIX) === 0) {
-      this.service_dispatcher.handleEvent(message);
-    }
-
-    channel = this.channels[message.channel];
     if (channel) {
       channel.emit(message.event, message.data);
     }
   }
 
-  errorHandle(evt) {
-    console.log("Ошибка " + error.message);
+  onCloseSocket(evt) {
+    console.log('Close :', evt);
   }
 
-  closeWsHandler(evt) {
-    if (evt.wasClean) {
-      console.log('Соединение закрыто чисто');
-    } else {
-      console.log('Обрыв соединения');
+  onCrashSocket(evt) {
+    clearTimeout(timeout_id);
+    timeout_id = setTimeout(() => {
+      this.createWsConnection(APP_KEY);
+    }, CONFIG.SOCKET_RESTORE_TIMEOUT);
+  }
+
+  onServiceMessage(message) {
+    switch (message.event) {
+      case EVENTS.CONNECTION_ESTABLISHED:
+        this.onSocketInit(message.data.socket_id);
+        break;
     }
-    console.log('Код: ' + evt.code + ' причина: ' + evt.reason);
-  }
-
-  getAppKey() {
-    return APP_KEY;
   }
 
   isConnected() {

@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import {Channel} from './channel';
-import {xhr} from './xhr';
+import {xhr} from '../services/xhr';
 
 export class PrivateChannel extends Channel {
   /** Authorize user on backend before subscribe

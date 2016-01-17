@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import EVENTS from './events.js';
+import EVENTS from '../config/events';
 
 export class Channel extends EventEmitter {
   constructor(name, gymmer) {
