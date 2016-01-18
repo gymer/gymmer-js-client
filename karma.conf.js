@@ -33,7 +33,7 @@ module.exports = function(config) {
 
     webpack: {
       resolve: {
-        modulesDirectories: ['src']
+        modulesDirectories: ['src', 'node_modules']
       },
       module: {
         loaders: [
