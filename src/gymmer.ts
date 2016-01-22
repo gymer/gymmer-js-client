@@ -1,10 +1,10 @@
 import {EventEmitter} from 'events';
-import CONFIG from './config/config';
-import EVENTS from './config/events';
-import {WS} from './services/websocket';
-import {Channel} from './channels/channel';
-import {PrivateChannel} from './channels/private_channel';
-import {ServiceDispatcher} from './service_dispatcher';
+import CONFIG from 'config/config';
+import EVENTS from 'config/events';
+import {WS} from 'services/websocket';
+import {Channel} from 'channels/channel';
+import {PrivateChannel} from 'channels/private_channel';
+import {ServiceDispatcher} from 'service_dispatcher';
 
 let APP_KEY, timeout_id;
 
@@ -14,14 +14,13 @@ export class Gymmer extends EventEmitter {
 
     APP_KEY = appKey;
 
-    this.options  = Object.assign({}, CONFIG, options);
+    this.options  = Object.assign({}, CONFIG.DEFAULT_OPTIONS, options);
     this.channels = {};
     this.messages = [];
     this.createWsConnection(APP_KEY);
   }
 
   createWsConnection(appKey) {
-    var self = this;
     var ws   = new WS(`ws://${this.options.host}/v1/ws/app/${appKey}`);
 
     // ws.onopen    = this.establishWsHandler.bind(this);
@@ -101,7 +100,7 @@ export class Gymmer extends EventEmitter {
     console.log('Close :', evt);
   }
 
-  onCrashSocket(evt) {
+  onCrashSocket() {
     clearTimeout(timeout_id);
     timeout_id = setTimeout(() => {
       this.createWsConnection(APP_KEY);

@@ -1,4 +1,4 @@
-import {Gymmer} from './gymmer.js';
+import {Gymmer} from './gymmer';
 
 window.Gymmer = Gymmer;
 

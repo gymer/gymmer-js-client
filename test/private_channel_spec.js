@@ -24,7 +24,11 @@ describe('PrivateChannel', () => {
     gymmer = {
       socket_id: '1234567',
       options: {
-        auth: {url: "http://my-backend.com/pusher/auth", method: "POST", headers: {'X-CSRF-Token': "SOME_CSRF_TOKEN"}}
+        auth: {
+          url: "http://my-backend.com/pusher/auth",
+          method: "POST",
+          headers: {'X-CSRF-Token': "SOME_CSRF_TOKEN"}
+        }
       },
       send: () => {}
     };
@@ -51,6 +55,7 @@ describe('PrivateChannel', () => {
 
     it('make authorization backend request before subscribe command.', () => {
       expect(request.url).toBe('http://my-backend.com/pusher/auth');
+      expect(request.requestHeaders['X-CSRF-Token']).toBe("SOME_CSRF_TOKEN");
       expect(request.method).toBe('POST');
     });
 

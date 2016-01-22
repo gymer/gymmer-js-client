@@ -1,4 +1,5 @@
-import EventEmitter from 'events';
+/// <reference path="../typings/node/node.d.ts" />
+import {EventEmitter} from 'events';
 
 export class ServiceDispatcher extends EventEmitter {
   constructor(ws, options = {}) {

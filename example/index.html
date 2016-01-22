@@ -10,9 +10,13 @@
   <script>
     var gymmer, public_channel, private_channel;
 
-    gymmer  = new Gymmer("b55a10860022b0cc", {
+    gymmer  = new Gymmer("8cb981cfacddfe3c", {
       host: "localhost:8080",
-      auth: {url: "http://localhost:3000/pusher/auth", method: "POST", headers: {'X-CSRF-Token': "SOME_CSRF_TOKEN"}}
+      auth: {
+        url: "http://localhost:3000/pusher/auth",
+        method: "POST",
+        headers: {'X-CSRF-Token': "SOME_CSRF_TOKEN"}
+      }
     });
 
     public_channel = gymmer.subscribe('notifications');
