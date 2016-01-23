@@ -5,8 +5,18 @@ import {WS} from 'services/websocket';
 import {Channel} from 'channels/channel';
 import {PrivateChannel} from 'channels/private_channel';
 import {ServiceDispatcher} from 'service_dispatcher';
+import Utils from 'utils';
 
 let APP_KEY, timeout_id;
+
+const DEFAULT_OPTIONS = {
+  wsUrl: "ws://localhost:8000/ws",
+  auth: {
+    url: "/pusher/auth",
+    method: "POST"
+  },
+  debug: "console"
+};
 
 export class Gymmer extends EventEmitter {
   constructor(appKey, options = {}) {
@@ -14,7 +24,7 @@ export class Gymmer extends EventEmitter {
 
     APP_KEY = appKey;
 
-    this.options  = Object.assign({}, CONFIG.DEFAULT_OPTIONS, options);
+    this.options = Utils.merge(DEFAULT_OPTIONS, options);
     this.channels = {};
     this.messages = [];
     this.createWsConnection(APP_KEY);
@@ -70,6 +80,7 @@ export class Gymmer extends EventEmitter {
 
     if (this.isConnected()) {
       this._ws.send(JSON.stringify(message));
+      this.log("Event sent:", message);
     } else {
       this.messages.push(message);
     }
@@ -94,13 +105,18 @@ export class Gymmer extends EventEmitter {
     if (channel) {
       channel.emit(message.event, message.data);
     }
+
+
+    this.log("Event recived:", message);
   }
 
   onCloseSocket(evt) {
-    debugger;
+    this.warn("WebSocket connection to", evt.target.url, "failed:", evt.reason);
   }
 
   onCrashSocket(evt) {
+    this.warn("WebSocket connection to", evt.target.url, "failed. Trying to reconnect...");
+
     clearTimeout(timeout_id);
     timeout_id = setTimeout(() => {
       this.createWsConnection(APP_KEY);
@@ -113,9 +129,39 @@ export class Gymmer extends EventEmitter {
         this.onSocketInit(message.data.socket_id);
         break;
     }
+
+    this.log("Service event received:", message);
   }
 
   isConnected() {
     return this._ws.readyState === 1;
+  }
+
+  log(...params: any[]) {
+    let debug = this.options.debug;
+
+    if (!debug) {
+      return;
+    }
+
+    params.unshift(CONFIG.SERVICE_MESSAGES_PREFIX);
+
+    if (debug === "console" && window.console && window.console.log) {
+      window.console.log(Utils.stringify.apply(null, params));
+    }
+  }
+
+  warn(...params: any[]) {
+    let debug = this.options.debug;
+
+    if (!debug) {
+      return;
+    }
+
+    params.unshift(CONFIG.SERVICE_MESSAGES_PREFIX);
+
+    if (debug === "console" && window.console && window.console.warn) {
+      window.console.warn(Utils.stringify.apply(null, params));
+    }
   }
 }

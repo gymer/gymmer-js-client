@@ -38,7 +38,7 @@ export class ServiceDispatcher extends EventEmitter {
   }
 
   onClose(evt) {
-    if (evt.wasClean) {
+    if (evt.code && evt.reason) {
       this.emit('close', evt);
     } else {
       this.emit('crash', evt);
