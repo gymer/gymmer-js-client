@@ -1,13 +1,8 @@
 {
     "compilerOptions": {
-        "target": "ES6",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "sourceMap": true
+      "target": "es6"
     },
-    "files": [
-    ],
     "exclude": [
-        "node_modules"
+      "node_modules"
     ]
 }

@@ -1,8 +1,14 @@
 /// <reference path="../typings/node/node.d.ts" />
 import {EventEmitter} from 'events';
 
+interface ServiceDispatcherOptions {
+  servicePrefix: string;
+}
+
 export class ServiceDispatcher extends EventEmitter {
-  constructor(ws, options = {}) {
+  private options: ServiceDispatcherOptions;
+
+  constructor(ws, options: ServiceDispatcherOptions) {
     super();
 
     this.options = options;

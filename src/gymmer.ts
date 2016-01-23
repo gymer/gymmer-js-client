@@ -97,10 +97,10 @@ export class Gymmer extends EventEmitter {
   }
 
   onCloseSocket(evt) {
-    console.log('Close :', evt);
+    debugger;
   }
 
-  onCrashSocket() {
+  onCrashSocket(evt) {
     clearTimeout(timeout_id);
     timeout_id = setTimeout(() => {
       this.createWsConnection(APP_KEY);
