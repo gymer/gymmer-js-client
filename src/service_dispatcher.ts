@@ -1,7 +1,14 @@
-import EventEmitter from 'events';
+/// <reference path="../typings/node/node.d.ts" />
+import {EventEmitter} from 'events';
+
+interface ServiceDispatcherOptions {
+  servicePrefix: string;
+}
 
 export class ServiceDispatcher extends EventEmitter {
-  constructor(ws, options = {}) {
+  private options: ServiceDispatcherOptions;
+
+  constructor(ws, options: ServiceDispatcherOptions) {
     super();
 
     this.options = options;
@@ -31,7 +38,7 @@ export class ServiceDispatcher extends EventEmitter {
   }
 
   onClose(evt) {
-    if (evt.wasClean) {
+    if (evt.code && evt.reason) {
       this.emit('close', evt);
     } else {
       this.emit('crash', evt);

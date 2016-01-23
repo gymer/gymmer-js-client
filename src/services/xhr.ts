@@ -1,5 +1,13 @@
+interface XhrRequestOptions {
+  url: string;
+  method?: string;
+  async?: boolean;
+  headers?: any;
+  data?: any;
+}
+
 export let xhr = {
-  request(options = {url: null, method: "GET", async: true, headers: {}}) {
+  request(options: XhrRequestOptions = { url: null, method: "GET", async: true, headers: {}, data: null }) {
     let XHR = new XMLHttpRequest();
     XHR.open(options.method, options.url, options.async);
     // XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');

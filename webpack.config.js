@@ -21,19 +21,24 @@ function envPlugins() {
 };
 
 module.exports = {
-  entry: "./src/bundle.js",
+  entry: "./src/bundle.ts",
 
   output: {
     path: __dirname + '/dist',
     filename: "bundle.js"
   },
 
+  resolve: {
+    modulesDirectories: ['src', 'node_modules'],
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+  },
+
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        loader: "babel!jshint"
+        loader: "babel!ts"
       },
       {
         test: /\.html/,

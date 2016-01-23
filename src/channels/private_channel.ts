@@ -1,6 +1,5 @@
-import EventEmitter from 'events';
-import {Channel} from './channel';
-import {xhr} from '../services/xhr';
+import {Channel} from 'channels/channel';
+import {xhr} from 'services/xhr';
 
 export class PrivateChannel extends Channel {
   /** Authorize user on backend before subscribe
@@ -21,11 +20,13 @@ export class PrivateChannel extends Channel {
       headers: options.headers,
       data: {socket_id: socketId}
     });
+
   }
 
   subscribe() {
     this.authorize(this.gymmer.socket_id)
       .then(xhr => {
+        console.log(xhr);
         super.subscribe();
       })
       .catch(err => {
