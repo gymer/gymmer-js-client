@@ -1,7 +1,7 @@
 export default {
-  CONNECTION_ESTABLISHED: "gymmer:connection_established",
-  CHANNEL_SUBSCRIBE: "gymmer:subscribe",
-  CHANNEL_SUBSCRIBTION_SUCCESS: "gymmer:subscribtion_success",
-  CHANNEL_UNSUBSCRIBE: "gymmer:unsubscribe",
-  CHANNEL_UNSUBSCRIBTION_SUCCESS: "gymmer:unsubscribtion_success"
+  CONNECTION_ESTABLISHED: "gymer:connection_established",
+  CHANNEL_SUBSCRIBE: "gymer:subscribe",
+  CHANNEL_SUBSCRIBTION_SUCCESS: "gymer:subscribtion_success",
+  CHANNEL_UNSUBSCRIBE: "gymer:unsubscribe",
+  CHANNEL_UNSUBSCRIBTION_SUCCESS: "gymer:unsubscribtion_success"
 };

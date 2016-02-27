@@ -1,8 +1,8 @@
 {
-  "name": "gymmer-js-client",
+  "name": "gymer-js-client",
   "version": "0.0.1",
-  "description": "JavaScript client for Gymmer push-service",
-  "main": "index.js",
+  "description": "JavaScript client for Gymer push-service",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "karma start karma.conf.js"
   },

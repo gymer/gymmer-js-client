@@ -2,19 +2,19 @@ import {EventEmitter} from 'events';
 import EVENTS from 'config/events';
 
 export class Channel extends EventEmitter {
-  constructor(name, gymmer) {
+  constructor(name, gymer) {
     super();
 
     this.name  = name;
-    this.gymmer = gymmer;
+    this.gymer = gymer;
   }
 
   subscribe() {
-    this.gymmer.send({event: EVENTS.CHANNEL_SUBSCRIBE, channel: this.name});
+    this.gymer.send({event: EVENTS.CHANNEL_SUBSCRIBE, channel: this.name});
   }
 
   unsubscribe() {
-    this.gymmer.send({event: EVENTS.CHANNEL_UNSUBSCRIBE, channel: this.name});
+    this.gymer.send({event: EVENTS.CHANNEL_UNSUBSCRIBE, channel: this.name});
   }
 
   unbindAll() {

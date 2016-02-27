@@ -12,7 +12,7 @@ export class PrivateChannel extends Channel {
       return;
     }
 
-    let options = this.gymmer.options.auth;
+    let options = this.gymer.options.auth;
     return xhr.request({
       url: options.url,
       method: options.method,
@@ -24,7 +24,7 @@ export class PrivateChannel extends Channel {
   }
 
   subscribe() {
-    this.authorize(this.gymmer.socket_id)
+    this.authorize(this.gymer.socket_id)
       .then(xhr => {
         console.log(xhr);
         super.subscribe();

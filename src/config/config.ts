@@ -1,4 +1,4 @@
 export default {
-  SERVICE_MESSAGES_PREFIX: "gymmer:",
+  SERVICE_MESSAGES_PREFIX: "gymer:",
   SOCKET_RESTORE_TIMEOUT: 2000
 };

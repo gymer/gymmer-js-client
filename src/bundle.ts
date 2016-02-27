@@ -1,5 +1,5 @@
-import {Gymmer} from './gymmer';
+import {Gymer} from './gymer';
 
-window.Gymmer = Gymmer;
+window.Gymer = Gymer;
 
 require('../example/index.html');

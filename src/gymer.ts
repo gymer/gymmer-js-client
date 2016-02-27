@@ -18,7 +18,7 @@ const DEFAULT_OPTIONS = {
   debug: "console"
 };
 
-export class Gymmer extends EventEmitter {
+export class Gymer extends EventEmitter {
   constructor(appKey, options = {}) {
     super();
 
