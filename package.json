@@ -4,6 +4,7 @@
   "description": "JavaScript client for Gymer push-service",
   "main": "dist/bundle.js",
   "scripts": {
+    "start": "webpack-dev-server",
     "test": "karma start karma.conf.js"
   },
   "repository": {
