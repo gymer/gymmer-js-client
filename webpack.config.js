@@ -1,31 +1,26 @@
 var webpack = require("webpack"),
-    ENV     = process.env.ENV || 'development',
-    DEV     = ENV == 'development';
+    yargs = require('yargs');
 
-function envPlugins() {
-  var plugins;
+var libraryName = 'gymer',
+    plugins = [],
+    outputFile;
 
-  if (!DEV) {
-    plugins = [
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        }
-      })
-    ];
-  } else {
-    plugins = [];
-  }
-
-  return plugins;
-};
+if (yargs.argv.p) {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
+  outputFile = libraryName + '.min.js';
+} else {
+  outputFile = libraryName + '.js';
+}
 
 module.exports = {
-  entry: "./src/bundle.ts",
+  entry: './src/gymer.ts',
 
   output: {
     path: __dirname + '/dist',
-    filename: "bundle.js"
+    filename: outputFile,
+    library: "Gymer",
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
 
   resolve: {
@@ -37,8 +32,7 @@ module.exports = {
     loaders: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
-        loader: "babel!ts"
+        loader: "ts"
       },
       {
         test: /\.html/,
@@ -47,16 +41,17 @@ module.exports = {
     ]
   },
 
-  plugins: envPlugins(),
+  plugins: plugins,
 
-  jshint: {
-    esnext: true
+  tslint: {
+    emitErrors: true,
+    failOnHint: true
   },
 
-  devtool: DEV ? 'source-map' : false,
+  devtool: 'source-map',
 
   devServer: {
-    contentBase: "./dist",
+    contentBase: ".",
     port: 8001,
     noInfo: true,
     hot: false,
