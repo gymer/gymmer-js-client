@@ -165,3 +165,5 @@ export class Gymer extends EventEmitter {
     }
   }
 }
+
+module.exports = Gymer
